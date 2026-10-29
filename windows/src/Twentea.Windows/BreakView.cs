@@ -142,11 +142,7 @@ sealed class BreakView : Border
         return label;
     }
 
-    private static Button MakeButton(string text) => new()
-    {
-        Content = text, Padding = new Thickness(14, 5, 14, 5), Margin = new Thickness(5, 0, 5, 0), FontSize = 13,
-        Focusable = false,
-    };
+    private static Button MakeButton(string text) => new() { Content = text, Style = Ui.Look("PillButton") };
 
     private static TextBlock Text(string text, double size, FontWeight weight, Brush color, double top, bool left = false) => new()
     {

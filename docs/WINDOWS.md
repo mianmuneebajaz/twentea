@@ -11,7 +11,8 @@ A native Windows tray app with the same presets, settings file and break rules a
 | Break windows, settings | WPF, built in code |
 | Storage | `%APPDATA%\Twentea\settings.json`, same JSON as the Mac |
 | Notifications | Tray balloon tips, which Windows 10 and 11 show as toasts |
-| Distribution | Zip in W0, signed installer and winget in W3 |
+| Distribution | Per-user Inno Setup installer (no admin), portable zip, winget |
+| Updates | In-app check against GitHub releases, runs the new installer silently |
 | Minimum OS | Windows 10 21H2, x64 and ARM64 |
 
 ## How the code splits
@@ -63,7 +64,7 @@ flowchart LR
 | W0 | Tray app runs, scheduler and store pass the shared tests, CI builds both platforms. **Done** |
 | W1 | Every enforcement level renders on all monitors. **Done** |
 | W2 | Every row in `docs/PARITY.md` reads `done` on Windows. **Done** |
-| W3 | `winget install Twentea` works and updates arrive without a manual download |
+| W3 | Installer, in-app updates and the winget job are built. Signing and the first winget submission wait on accounts, see below |
 
 ## Release pipeline
 
@@ -79,3 +80,25 @@ flowchart LR
 
 Signing is optional. Without secrets, the Mac build is ad-hoc signed and the Windows build is
 unsigned, so Gatekeeper and SmartScreen warn on first launch.
+
+## Finishing W3
+
+Two one-time steps need accounts, so they are not automated:
+
+| Step | What to do | Then |
+|---|---|---|
+| Code signing | Create an Azure Trusted Signing account and add `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_SIGNING_ENDPOINT`, `AZURE_SIGNING_ACCOUNT`, `AZURE_SIGNING_PROFILE` as repository secrets | Every release signs the exe and the installer, and SmartScreen stops warning |
+| winget | Submit the first version with `wingetcreate new <setup.exe url>` as `Muneeb.Twentea`, then add a `WINGET_TOKEN` secret | Every later tag opens the winget update automatically |
+
+## Updates
+
+```mermaid
+flowchart LR
+  A[App starts, then every 6 h] --> B[GET releases/latest]
+  B -->|newer tag| C[Update button in tray panel and settings]
+  C --> D[Download Twentea-x.y.z-win-x64-setup.exe]
+  D --> E[Run it with /SILENT and quit]
+  E --> F[Installer replaces files and starts Twentea]
+```
+
+A portable copy from the zip has no installer to run, so its Update button opens the releases page.

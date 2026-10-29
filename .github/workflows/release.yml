@@ -58,6 +58,8 @@ jobs:
       run:
         working-directory: windows
         shell: pwsh
+    env:
+      HAS_SIGNING: ${{ secrets.AZURE_CLIENT_ID != '' }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v5
@@ -67,13 +69,57 @@ jobs:
       - name: Publish x64 and ARM64
         run: |
           $version = "$env:GITHUB_REF_NAME".TrimStart('v')
-          New-Item -ItemType Directory -Force dist | Out-Null
           foreach ($rid in 'win-x64', 'win-arm64') {
             dotnet publish src/Twentea.Windows -c Release -r $rid --self-contained `
               -p:PublishSingleFile=true -p:Version=$version -o "publish/$rid"
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+
+      - name: Sign app
+        if: env.HAS_SIGNING == 'true'
+        uses: azure/trusted-signing-action@v0.5.1
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: ${{ secrets.AZURE_SIGNING_ENDPOINT }}
+          trusted-signing-account-name: ${{ secrets.AZURE_SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ secrets.AZURE_SIGNING_PROFILE }}
+          files-folder: windows/publish
+          files-folder-filter: exe
+          files-folder-recurse: true
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Build installers and zips
+        run: |
+          $version = "$env:GITHUB_REF_NAME".TrimStart('v')
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress | Out-Null }
+          New-Item -ItemType Directory -Force dist | Out-Null
+          foreach ($rid in 'win-x64', 'win-arm64') {
+            & $iscc /Qp "/DAppVersion=$version" "/DArch=$rid" "/DSource=..\publish\$rid" "/DOutputDir=..\dist" installer\Twentea.iss
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
             Compress-Archive -Path "publish/$rid/*" -DestinationPath "dist/Twentea-$version-$rid.zip" -Force
           }
+
+      - name: Sign installers
+        if: env.HAS_SIGNING == 'true'
+        uses: azure/trusted-signing-action@v0.5.1
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: ${{ secrets.AZURE_SIGNING_ENDPOINT }}
+          trusted-signing-account-name: ${{ secrets.AZURE_SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ secrets.AZURE_SIGNING_PROFILE }}
+          files-folder: windows/dist
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
       - uses: actions/upload-artifact@v5
         with:
           name: windows-dist
@@ -94,6 +140,23 @@ jobs:
           generate_release_notes: true
           prerelease: ${{ contains(github.ref_name, '-') }}
           body: |
-            macOS 14 or later: download the `.dmg`. Windows 10 and 11: download the `win-x64` or `win-arm64` zip and run `Twentea.exe`.
+            macOS 14 or later: download the `.dmg`. Windows 10 and 11: download `win-x64-setup.exe` (or `win-arm64-setup.exe` on ARM). The zips are portable copies that do not update themselves.
 
             Builds are unsigned until signing secrets are configured. On macOS, right-click the app and choose Open the first time. On Windows, choose More info, then Run anyway.
+
+  winget:
+    name: winget
+    needs: publish
+    runs-on: windows-latest
+    # Updates the Muneeb.Twentea manifest in microsoft/winget-pkgs. Needs WINGET_TOKEN (a classic token
+    # with public_repo) and a first version submitted by hand, see docs/WINDOWS.md.
+    if: ${{ !contains(github.ref_name, '-') }}
+    env:
+      HAS_TOKEN: ${{ secrets.WINGET_TOKEN != '' }}
+    steps:
+      - if: env.HAS_TOKEN == 'true'
+        uses: vedantmgoyal9/winget-releaser@v2
+        with:
+          identifier: Muneeb.Twentea
+          installers-regex: '-setup\.exe$'
+          token: ${{ secrets.WINGET_TOKEN }}

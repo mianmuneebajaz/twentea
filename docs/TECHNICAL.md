@@ -11,7 +11,7 @@ Twentea's Mac app is a native macOS menu bar app that schedules eye breaks, enfo
 | Build | Swift Package Manager in `mac/`; `mac/scripts/bundle.sh` wraps the binary into `Twentea.app` |
 | Storage | JSON in `~/Library/Application Support/Twentea/` |
 | Login item | `SMAppService.mainApp` |
-| Updates | Sparkle 2 (phase 2) |
+| Updates | GitHub releases check, `Present/Updater.swift` swaps the app bundle in place |
 | Minimum OS | macOS 14 |
 
 No Xcode project. Everything builds with `swift build` and the command line tools.

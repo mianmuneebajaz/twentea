@@ -171,13 +171,14 @@ final class Scheduler: ObservableObject {
         return nil
     }
 
-    /// Being away for a break's length counts as taking it.
+    /// Being away for a break's length counts as taking it. A short pause in input is usually reading,
+    /// not looking away, so idle time only counts once it passes the active-idle limit too.
     private func creditIdle(_ idle: TimeInterval, at date: Date) {
-        if settings.long.enabled, idle >= TimeInterval(settings.long.durationSeconds), longElapsed > 60 {
+        if settings.long.enabled, idle >= max(TimeInterval(settings.long.durationSeconds), Self.activeIdleLimit), longElapsed > 60 {
             stats?.record(.long, .credited, at: date)
             longElapsed = 0
             microElapsed = 0
-        } else if settings.micro.enabled, idle >= TimeInterval(settings.micro.durationSeconds), microElapsed > 60 {
+        } else if settings.micro.enabled, idle >= max(TimeInterval(settings.micro.durationSeconds), Self.activeIdleLimit), microElapsed > 60 {
             stats?.record(.micro, .credited, at: date)
             microElapsed = 0
         }

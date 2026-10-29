@@ -208,16 +208,19 @@ public sealed class Scheduler
         return null;
     }
 
-    /// <summary>Being away for a break's length counts as taking it.</summary>
+    /// <summary>
+    /// Being away for a break's length counts as taking it. A short pause in input is usually reading,
+    /// not looking away, so idle time only counts once it passes the active-idle limit too.
+    /// </summary>
     private void CreditIdle(double idle, DateTime date)
     {
-        if (Settings.Long.Enabled && idle >= Settings.Long.DurationSeconds && LongElapsed > 60)
+        if (Settings.Long.Enabled && idle >= Math.Max(Settings.Long.DurationSeconds, ActiveIdleLimit) && LongElapsed > 60)
         {
             _stats?.Record(BreakKind.Long, BreakOutcome.Credited, date);
             LongElapsed = 0;
             MicroElapsed = 0;
         }
-        else if (Settings.Micro.Enabled && idle >= Settings.Micro.DurationSeconds && MicroElapsed > 60)
+        else if (Settings.Micro.Enabled && idle >= Math.Max(Settings.Micro.DurationSeconds, ActiveIdleLimit) && MicroElapsed > 60)
         {
             _stats?.Record(BreakKind.Micro, BreakOutcome.Credited, date);
             MicroElapsed = 0;

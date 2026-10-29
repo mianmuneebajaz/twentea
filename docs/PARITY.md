@@ -31,4 +31,7 @@ requires a row change in any pull request that ships a feature on one app only.
 | Launch at login | done | done |  |
 | `twentea://` URLs | done | done |  |
 | Keep system awake during a break | done | done |  |
-| Signed and notarized download | pending | pending | Secrets not set yet |
+| Update check and Update button | done | done | Mac swaps the app in place, Windows runs the installer |
+| Installer | done | done | DMG on Mac, per-user setup.exe on Windows |
+| Signed download | pending | pending | Waits on Apple and Azure signing secrets |
+| Package manager | pending | pending | winget job is ready, needs the first manual submission |

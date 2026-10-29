@@ -21,6 +21,11 @@ static class Program
         SystemIntegration.RegisterUrlScheme();
 
         var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+        // The Fluent theme gives every window the Windows 11 look and follows light and dark mode.
+#pragma warning disable WPF0001
+        app.ThemeMode = ThemeMode.System;
+#pragma warning restore WPF0001
+        app.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Twentea;component/Theme.xaml") });
         var tray = new TrayApp();
         _ = SystemIntegration.ListenAsync(url => app.Dispatcher.InvokeAsync(() => tray.Handle(url)));
         foreach (var url in args) tray.Handle(url);

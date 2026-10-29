@@ -62,7 +62,15 @@ jobs:
       - run: >-
           dotnet publish src/Twentea.Windows -c Release -r win-x64 --self-contained
           -p:PublishSingleFile=true -p:Version=0.0.${{ github.run_number }} -o publish/win-x64
+      - name: Build installer
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress | Out-Null }
+          & $iscc /Qp "/DAppVersion=0.0.${{ github.run_number }}" "/DArch=win-x64" installer\Twentea.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v5
         with:
           name: Twentea-win-x64
-          path: windows/publish/win-x64
+          path: |
+            windows/publish/win-x64
+            windows/dist/*.exe

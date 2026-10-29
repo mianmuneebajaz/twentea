@@ -409,6 +409,7 @@ private struct GeneralSection: View {
         Section {
             Toggle("Open at login", isOn: Binding(get: { app.launchAtLogin }, set: { app.launchAtLogin = $0 }))
         }
+        UpdatesSection(updater: app.updater)
         Section("Data") {
             Button("Reset break timers") { scheduler.resetTimers() }
             Button("Show data folder") { NSWorkspace.shared.open(SettingsStore.defaultDirectory) }
@@ -420,6 +421,25 @@ private struct GeneralSection: View {
         }
         Section {
             LabeledContent("Twentea", value: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev")
+        }
+    }
+}
+
+private struct UpdatesSection: View {
+    @ObservedObject var updater: Updater
+
+    var body: some View {
+        Section("Updates") {
+            LabeledContent("Status", value: updater.statusText)
+            HStack {
+                Button("Check now") { updater.check() }
+                    .disabled(updater.state == .checking || updater.state == .downloading)
+                if let version = updater.availableVersion {
+                    Button("Update to \(version)") { updater.install() }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.orange)
+                }
+            }
         }
     }
 }
