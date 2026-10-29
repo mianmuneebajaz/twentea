@@ -14,8 +14,7 @@ A free, open source eye-break app for macOS and Windows. Every 20 minutes it ask
 ## Download
 
 Grab the latest build from [Releases](../../releases): `Twentea-<version>.dmg` for macOS 14 or later,
-`Twentea-<version>-win-x64.zip` or `-win-arm64.zip` for Windows 10 and 11. The Windows app is an
-early preview, see [docs/PARITY.md](docs/PARITY.md) for what it does so far.
+`Twentea-<version>-win-x64.zip` or `-win-arm64.zip` for Windows 10 and 11.
 
 ## Build
 
@@ -38,7 +37,7 @@ dotnet run --project src/Twentea.Windows
 
 ## Automation
 
-On macOS today, on Windows from phase W2.
+On Windows, use the same URLs with `start twentea://toggle`.
 
 ```bash
 open "twentea://toggle"
