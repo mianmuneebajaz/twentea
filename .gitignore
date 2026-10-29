@@ -1,0 +1,10 @@
+.build/
+build/
+.swiftpm/
+.DS_Store
+dist/
+bin/
+obj/
+publish/
+.vs/
+*.user

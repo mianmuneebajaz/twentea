@@ -1,0 +1,728 @@
+[
+  {
+    "builtIn" : true,
+    "id" : "gentle",
+    "name" : "Gentle",
+    "settings" : {
+      "breakpointGraceSeconds" : 180,
+      "features" : {
+        "floatingCard" : true,
+        "fullOverlay" : false,
+        "hardLock" : false,
+        "idleCredit" : true,
+        "menuBarCountdown" : true,
+        "notifications" : true,
+        "restartOnInput" : true,
+        "screenDimming" : false,
+        "smartPause" : true,
+        "sounds" : true
+      },
+      "long" : {
+        "durationSeconds" : 300,
+        "enabled" : true,
+        "enforcement" : "notification",
+        "intervalMinutes" : 90,
+        "maxPostpones" : 99,
+        "postponeMinutes" : 5,
+        "skipDelaySeconds" : 0
+      },
+      "micro" : {
+        "durationSeconds" : 20,
+        "enabled" : true,
+        "enforcement" : "notification",
+        "intervalMinutes" : 30,
+        "maxPostpones" : 99,
+        "postponeMinutes" : 5,
+        "skipDelaySeconds" : 0
+      },
+      "schedule" : {
+        "days" : [
+          {
+            "enabled" : false,
+            "weekday" : 1,
+            "windows" : [
+              {
+                "endMinute" : 1020,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 2,
+            "windows" : [
+              {
+                "endMinute" : 1020,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 3,
+            "windows" : [
+              {
+                "endMinute" : 1020,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 4,
+            "windows" : [
+              {
+                "endMinute" : 1020,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 5,
+            "windows" : [
+              {
+                "endMinute" : 1020,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 6,
+            "windows" : [
+              {
+                "endMinute" : 1020,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : false,
+            "weekday" : 7,
+            "windows" : [
+              {
+                "endMinute" : 1020,
+                "startMinute" : 540
+              }
+            ]
+          }
+        ],
+        "enabled" : true
+      },
+      "smartPause" : {
+        "cameraOrMic" : true,
+        "excludedBundleIDs" : [
+
+        ],
+        "videoPlaying" : true
+      }
+    },
+    "symbol" : "leaf"
+  },
+  {
+    "builtIn" : true,
+    "id" : "balanced",
+    "name" : "Balanced",
+    "settings" : {
+      "breakpointGraceSeconds" : 180,
+      "features" : {
+        "floatingCard" : true,
+        "fullOverlay" : true,
+        "hardLock" : false,
+        "idleCredit" : true,
+        "menuBarCountdown" : true,
+        "notifications" : true,
+        "restartOnInput" : true,
+        "screenDimming" : true,
+        "smartPause" : true,
+        "sounds" : true
+      },
+      "long" : {
+        "durationSeconds" : 300,
+        "enabled" : true,
+        "enforcement" : "overlay",
+        "intervalMinutes" : 60,
+        "maxPostpones" : 2,
+        "postponeMinutes" : 5,
+        "skipDelaySeconds" : 0
+      },
+      "micro" : {
+        "durationSeconds" : 20,
+        "enabled" : true,
+        "enforcement" : "softDim",
+        "intervalMinutes" : 20,
+        "maxPostpones" : 2,
+        "postponeMinutes" : 5,
+        "skipDelaySeconds" : 0
+      },
+      "schedule" : {
+        "days" : [
+          {
+            "enabled" : false,
+            "weekday" : 1,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 2,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 3,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 4,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 5,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 6,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : false,
+            "weekday" : 7,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          }
+        ],
+        "enabled" : true
+      },
+      "smartPause" : {
+        "cameraOrMic" : true,
+        "excludedBundleIDs" : [
+
+        ],
+        "videoPlaying" : true
+      }
+    },
+    "symbol" : "cup.and.saucer"
+  },
+  {
+    "builtIn" : true,
+    "id" : "strict",
+    "name" : "Strict",
+    "settings" : {
+      "breakpointGraceSeconds" : 180,
+      "features" : {
+        "floatingCard" : true,
+        "fullOverlay" : true,
+        "hardLock" : true,
+        "idleCredit" : true,
+        "menuBarCountdown" : true,
+        "notifications" : true,
+        "restartOnInput" : true,
+        "screenDimming" : true,
+        "smartPause" : true,
+        "sounds" : true
+      },
+      "long" : {
+        "durationSeconds" : 600,
+        "enabled" : true,
+        "enforcement" : "lock",
+        "intervalMinutes" : 50,
+        "maxPostpones" : 1,
+        "postponeMinutes" : 2,
+        "skipDelaySeconds" : 5
+      },
+      "micro" : {
+        "durationSeconds" : 20,
+        "enabled" : true,
+        "enforcement" : "overlay",
+        "intervalMinutes" : 20,
+        "maxPostpones" : 1,
+        "postponeMinutes" : 2,
+        "skipDelaySeconds" : 5
+      },
+      "schedule" : {
+        "days" : [
+          {
+            "enabled" : false,
+            "weekday" : 1,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 2,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 3,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 4,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 5,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 6,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          },
+          {
+            "enabled" : false,
+            "weekday" : 7,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 540
+              }
+            ]
+          }
+        ],
+        "enabled" : true
+      },
+      "smartPause" : {
+        "cameraOrMic" : false,
+        "excludedBundleIDs" : [
+
+        ],
+        "videoPlaying" : true
+      }
+    },
+    "symbol" : "lock"
+  },
+  {
+    "builtIn" : true,
+    "id" : "night-owl",
+    "name" : "Night owl",
+    "settings" : {
+      "breakpointGraceSeconds" : 180,
+      "features" : {
+        "floatingCard" : true,
+        "fullOverlay" : true,
+        "hardLock" : false,
+        "idleCredit" : true,
+        "menuBarCountdown" : true,
+        "notifications" : true,
+        "restartOnInput" : true,
+        "screenDimming" : true,
+        "smartPause" : true,
+        "sounds" : true
+      },
+      "long" : {
+        "durationSeconds" : 300,
+        "enabled" : true,
+        "enforcement" : "overlay",
+        "intervalMinutes" : 60,
+        "maxPostpones" : 2,
+        "postponeMinutes" : 5,
+        "skipDelaySeconds" : 0
+      },
+      "micro" : {
+        "durationSeconds" : 20,
+        "enabled" : true,
+        "enforcement" : "softDim",
+        "intervalMinutes" : 20,
+        "maxPostpones" : 2,
+        "postponeMinutes" : 5,
+        "skipDelaySeconds" : 0
+      },
+      "schedule" : {
+        "days" : [
+          {
+            "enabled" : false,
+            "weekday" : 1,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 840
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 2,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 840
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 3,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 840
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 4,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 840
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 5,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 840
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 6,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 840
+              }
+            ]
+          },
+          {
+            "enabled" : false,
+            "weekday" : 7,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 840
+              }
+            ]
+          }
+        ],
+        "enabled" : true
+      },
+      "smartPause" : {
+        "cameraOrMic" : true,
+        "excludedBundleIDs" : [
+
+        ],
+        "videoPlaying" : true
+      }
+    },
+    "symbol" : "moon.stars"
+  },
+  {
+    "builtIn" : true,
+    "id" : "meeting-heavy",
+    "name" : "Meeting heavy",
+    "settings" : {
+      "breakpointGraceSeconds" : 180,
+      "features" : {
+        "floatingCard" : true,
+        "fullOverlay" : false,
+        "hardLock" : false,
+        "idleCredit" : true,
+        "menuBarCountdown" : true,
+        "notifications" : true,
+        "restartOnInput" : true,
+        "screenDimming" : true,
+        "smartPause" : true,
+        "sounds" : false
+      },
+      "long" : {
+        "durationSeconds" : 300,
+        "enabled" : true,
+        "enforcement" : "softDim",
+        "intervalMinutes" : 90,
+        "maxPostpones" : 3,
+        "postponeMinutes" : 10,
+        "skipDelaySeconds" : 0
+      },
+      "micro" : {
+        "durationSeconds" : 20,
+        "enabled" : true,
+        "enforcement" : "card",
+        "intervalMinutes" : 25,
+        "maxPostpones" : 3,
+        "postponeMinutes" : 10,
+        "skipDelaySeconds" : 0
+      },
+      "schedule" : {
+        "days" : [
+          {
+            "enabled" : false,
+            "weekday" : 1,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 510
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 2,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 510
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 3,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 510
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 4,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 510
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 5,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 510
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 6,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 510
+              }
+            ]
+          },
+          {
+            "enabled" : false,
+            "weekday" : 7,
+            "windows" : [
+              {
+                "endMinute" : 1080,
+                "startMinute" : 510
+              }
+            ]
+          }
+        ],
+        "enabled" : true
+      },
+      "smartPause" : {
+        "cameraOrMic" : true,
+        "excludedBundleIDs" : [
+
+        ],
+        "videoPlaying" : true
+      }
+    },
+    "symbol" : "person.2"
+  },
+  {
+    "builtIn" : true,
+    "id" : "minimal",
+    "name" : "Minimal",
+    "settings" : {
+      "breakpointGraceSeconds" : 180,
+      "features" : {
+        "floatingCard" : true,
+        "fullOverlay" : false,
+        "hardLock" : false,
+        "idleCredit" : true,
+        "menuBarCountdown" : true,
+        "notifications" : true,
+        "restartOnInput" : true,
+        "screenDimming" : false,
+        "smartPause" : true,
+        "sounds" : true
+      },
+      "long" : {
+        "durationSeconds" : 300,
+        "enabled" : false,
+        "enforcement" : "notification",
+        "intervalMinutes" : 60,
+        "maxPostpones" : 99,
+        "postponeMinutes" : 5,
+        "skipDelaySeconds" : 0
+      },
+      "micro" : {
+        "durationSeconds" : 20,
+        "enabled" : true,
+        "enforcement" : "menuBar",
+        "intervalMinutes" : 20,
+        "maxPostpones" : 99,
+        "postponeMinutes" : 5,
+        "skipDelaySeconds" : 0
+      },
+      "schedule" : {
+        "days" : [
+          {
+            "enabled" : true,
+            "weekday" : 1,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 0
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 2,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 0
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 3,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 0
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 4,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 0
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 5,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 0
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 6,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 0
+              }
+            ]
+          },
+          {
+            "enabled" : true,
+            "weekday" : 7,
+            "windows" : [
+              {
+                "endMinute" : 0,
+                "startMinute" : 0
+              }
+            ]
+          }
+        ],
+        "enabled" : false
+      },
+      "smartPause" : {
+        "cameraOrMic" : true,
+        "excludedBundleIDs" : [
+
+        ],
+        "videoPlaying" : true
+      }
+    },
+    "symbol" : "circle"
+  }
+]

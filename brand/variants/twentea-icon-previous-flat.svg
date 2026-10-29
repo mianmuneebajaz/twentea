@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Twentea</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7B55E"/>
+      <stop offset="1" stop-color="#C9631A"/>
+    </linearGradient>
+    <linearGradient id="tea" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6E3510"/>
+      <stop offset="1" stop-color="#9A5218"/>
+    </linearGradient>
+  </defs>
+
+  <!-- macOS squircle tile -->
+  <rect x="64" y="64" width="896" height="896" rx="200" fill="url(#bg)"/>
+
+  <!-- steam -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round" opacity="0.85">
+    <path d="M412 362 C384 322 440 292 412 242"/>
+    <path d="M480 372 C452 322 508 282 480 222"/>
+    <path d="M548 362 C520 322 576 292 548 242"/>
+  </g>
+
+  <!-- saucer -->
+  <ellipse cx="480" cy="762" rx="300" ry="42" fill="#FFFFFF" opacity="0.92"/>
+
+  <!-- handle -->
+  <circle cx="734" cy="548" r="62" fill="none" stroke="#FFFFFF" stroke-width="34"/>
+
+  <!-- cup -->
+  <path d="M250 430 H710 V560 C710 682 610 742 480 742 C350 742 250 682 250 560 Z" fill="#FFFFFF"/>
+  <ellipse cx="480" cy="430" rx="230" ry="32" fill="url(#tea)"/>
+
+  <!-- 20 on the cup: chunky soft-serif digits, ball terminal on the 2, stressed 0, letterpress shadow -->
+  <defs>
+    <linearGradient id="ink" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E08524"/>
+      <stop offset="1" stop-color="#A9520D"/>
+    </linearGradient>
+    <g id="twenty">
+      <circle cx="394" cy="503" r="25"/>
+      <path d="M394 503 C394 476 416 460 442 460 C472 460 492 480 492 508 C492 538 470 556 444 578 L392 624" fill="none" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="378" y="610" width="122" height="32" rx="10"/>
+      <path fill-rule="evenodd" d="M502 551 A60 90 0 1 0 622 551 A60 90 0 1 0 502 551 Z M538 551 A24 58 0 1 0 586 551 A24 58 0 1 0 538 551 Z"/>
+    </g>
+  </defs>
+  <use href="#twenty" transform="translate(6 7)" fill="#6E3510" stroke="#6E3510" opacity="0.35"/>
+  <use href="#twenty" fill="url(#ink)" stroke="url(#ink)"/>
+</svg>

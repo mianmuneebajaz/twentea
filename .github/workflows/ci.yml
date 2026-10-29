@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  parity:
+    name: Parity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: scripts/check-parity.sh
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          PLATFORM_SPECIFIC: ${{ contains(github.event.pull_request.labels.*.name, 'platform-specific') && '1' || '0' }}
+
+  mac:
+    name: macOS
+    runs-on: macos-26
+    defaults:
+      run:
+        working-directory: mac
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift --version
+      - run: scripts/test.sh
+      - run: scripts/bundle.sh
+        env:
+          VERSION: 0.0.${{ github.run_number }}
+      - run: ditto -c -k --keepParent build/Twentea.app Twentea-mac.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Twentea-mac
+          path: mac/Twentea-mac.zip
+
+  windows:
+    name: Windows
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: windows
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet test Twentea.slnx -c Release
+      - run: >-
+          dotnet publish src/Twentea.Windows -c Release -r win-x64 --self-contained
+          -p:PublishSingleFile=true -p:Version=0.0.${{ github.run_number }} -o publish/win-x64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Twentea-win-x64
+          path: windows/publish/win-x64

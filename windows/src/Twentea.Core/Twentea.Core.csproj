@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Platform-neutral model and scheduler. Mirrors mac/Sources/Twentea/Model and Core/Scheduler.swift. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\..\shared\presets.json" LogicalName="presets.json" />
+  </ItemGroup>
+</Project>

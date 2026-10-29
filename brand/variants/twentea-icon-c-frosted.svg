@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Twentea, Frosted</title>
+<defs>
+    <linearGradient id="v2bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7B55E"/><stop offset="1" stop-color="#C9631A"/>
+    </linearGradient>
+    <linearGradient id="v2tea" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6E3510"/><stop offset="1" stop-color="#9A5218"/>
+    </linearGradient>
+    <filter id="v2shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+    <!-- Liquid glass: specular sheen from a blurred height map, plus a bright rim at the edges -->
+    <filter id="v2glass" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="h"/>
+      <feSpecularLighting in="h" surfaceScale="4" specularConstant="0.9" specularExponent="30" lighting-color="#FFFFFF" result="s">
+        <feDistantLight azimuth="225" elevation="40"/>
+      </feSpecularLighting>
+      <feComposite in="s" in2="SourceAlpha" operator="in" result="sIn"/>
+      <feMorphology in="SourceAlpha" operator="erode" radius="2" result="er"/>
+      <feComposite in="SourceAlpha" in2="er" operator="out" result="rimA"/>
+      <feFlood flood-color="#FFFFFF" flood-opacity="0.7"/>
+      <feComposite in2="rimA" operator="in" result="rim"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.22 0" result="nw"/>
+      <feComposite in="nw" in2="SourceAlpha" operator="in" result="frost"/>
+      <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="frost"/><feMergeNode in="sIn"/><feMergeNode in="rim"/></feMerge>
+    </filter>
+<linearGradient id="v2jel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFB347"/><stop offset="1" stop-color="#D2560B"/>
+    </linearGradient><mask id="v2m"><g fill="#FFFFFF" stroke="#FFFFFF">
+      <path d="M410 500 C410 475 426 458 448 458 C470 458 486 475 486 500 C486 530 468 550 448 574 L408 628 H490" fill="none" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="522" y="458" width="84" height="170" rx="42" fill="none" stroke-width="32"/></g></mask></defs>
+  <rect x="64" y="64" width="896" height="896" rx="200" fill="url(#v2bg)"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round" opacity="0.85">
+    <path d="M412 362 C384 322 440 292 412 242"/>
+    <path d="M480 372 C452 322 508 282 480 222"/>
+    <path d="M548 362 C520 322 576 292 548 242"/>
+  </g>
+  <ellipse cx="480" cy="762" rx="300" ry="42" fill="#FFFFFF" opacity="0.92"/>
+  <circle cx="734" cy="548" r="62" fill="none" stroke="#FFFFFF" stroke-width="34"/>
+  <path d="M250 430 H710 V560 C710 682 610 742 480 742 C350 742 250 682 250 560 Z" fill="#FFFFFF"/>
+  <ellipse cx="480" cy="430" rx="230" ry="32" fill="url(#v2tea)"/>
+
+  <g transform="translate(5 9)" filter="url(#v2shadow)" opacity="0.28">
+    <g fill="#6E3510" stroke="#6E3510">
+      <path d="M410 500 C410 475 426 458 448 458 C470 458 486 475 486 500 C486 530 468 550 448 574 L408 628 H490" fill="none" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="522" y="458" width="84" height="170" rx="42" fill="none" stroke-width="32"/></g>
+  </g>
+  <g filter="url(#v2glass)">
+      <g fill="#E08524" stroke="#E08524" opacity="0.8">
+      <path d="M410 500 C410 475 426 458 448 458 C470 458 486 475 486 500 C486 530 468 550 448 574 L408 628 H490" fill="none" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="522" y="458" width="84" height="170" rx="42" fill="none" stroke-width="32"/></g>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version Condition="'$(Version)' == ''">0.1.0</Version>
+    <Authors>Muneeb</Authors>
+    <Product>Twentea</Product>
+    <Copyright>MIT License</Copyright>
+  </PropertyGroup>
+</Project>

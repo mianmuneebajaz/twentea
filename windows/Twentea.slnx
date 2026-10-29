@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Twentea.Core/Twentea.Core.csproj" />
+    <Project Path="src/Twentea.Windows/Twentea.Windows.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Twentea.Core.Tests/Twentea.Core.Tests.csproj" />
+  </Folder>
+</Solution>
