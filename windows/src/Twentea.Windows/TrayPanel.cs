@@ -23,10 +23,11 @@ sealed class TrayPanel : Window
     private readonly StackPanel _controls = new();
     private readonly StackPanel _update = new();
     private readonly DispatcherTimer _clock = new() { Interval = TimeSpan.FromSeconds(1) };
+    private bool _closing;
 
     public static void Toggle(TrayApp app)
     {
-        if (_open is not null) { _open.Close(); return; }
+        if (_open is not null) { _open.SafeClose(); return; }
         // Clicking the tray icon deactivates an open panel first; do not reopen it straight away.
         if (DateTime.Now - _closedAt < TimeSpan.FromMilliseconds(400)) return;
         _open = new TrayPanel(app);
@@ -61,7 +62,7 @@ sealed class TrayPanel : Window
         footer.Children.Add(new StackPanel
         {
             Orientation = Orientation.Horizontal,
-            Children = { Ui.Button("Settings", () => { Close(); SettingsWindow.Open(_app); }, "SubtleButton").With(b => b.Margin = new Thickness(0)) },
+            Children = { Ui.Button("Settings", OpenSettings, "SubtleButton").With(b => b.Margin = new Thickness(0)) },
         });
 
         Content = Ui.Surface(new StackPanel
@@ -78,7 +79,8 @@ sealed class TrayPanel : Window
             Activate();
             _clock.Start();
         };
-        Deactivated += (_, _) => Close();
+        Closing += (_, _) => _closing = true;
+        Deactivated += (_, _) => SafeClose();
         Closed += (_, _) => { _clock.Stop(); _app.Changed -= Render; };
         Render();
     }
@@ -164,4 +166,25 @@ sealed class TrayPanel : Window
     }
 
     private void RenderStatus() => _status.Text = _app.Status();
+
+    /// <summary>
+    /// Closing a window deactivates it, and deactivation closes the panel. Calling Close on a window
+    /// that is already closing throws, so every close goes through here.
+    /// </summary>
+    private void SafeClose()
+    {
+        if (_closing) return;
+        _closing = true;
+        Close();
+    }
+
+    /// <summary>Closes the panel first, then opens settings once the close has finished.</summary>
+    private void OpenSettings()
+    {
+        SafeClose();
+        Dispatcher.InvokeAsync(() => SettingsWindow.Open(_app));
+    }
+
+    /// <summary>Used by the self-test: the same path as clicking Settings in an open panel.</summary>
+    public static void OpenSettingsFromPanel() => _open?.OpenSettings();
 }

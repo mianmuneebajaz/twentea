@@ -24,6 +24,13 @@ sealed class SettingsWindow : Window
     private readonly TextBlock _powerSubtitle = Ui.Secondary("");
     private readonly (string Glyph, string Name, Func<StackPanel> Build)[] _pages;
 
+    /// <summary>The open settings window, if any. Used by the self-test.</summary>
+    public static SettingsWindow? Current => _open;
+
+    public void ShowPageAt(int index) => _nav.SelectedIndex = index;
+
+    public int PageCount => _pages.Length;
+
     public static void Open(TrayApp app)
     {
         if (_open is null)
@@ -402,7 +409,7 @@ sealed class SettingsWindow : Window
 
         page.Children.Add(Group("Data"));
         page.Children.Add(Row("Break timers", "Start both countdowns from zero.", Ui.Button("Reset", () => _app.Scheduler.ResetTimers()).With(b => b.Margin = new Thickness(0))));
-        page.Children.Add(Row("Data folder", SettingsStore.DefaultDirectory, Ui.Button("Open", () => SystemIntegration.OpenFolder(SettingsStore.DefaultDirectory)).With(b => b.Margin = new Thickness(0))));
+        page.Children.Add(Row("Data folder", TrayApp.DataDirectory, Ui.Button("Open", () => SystemIntegration.OpenFolder(TrayApp.DataDirectory)).With(b => b.Margin = new Thickness(0))));
 
         page.Children.Add(Group("Automation"));
         foreach (var (label, url) in new[] { ("Start a break", "twentea://break"), ("Pause 30 minutes", "twentea://pause?minutes=30"), ("Switch preset", "twentea://preset?id=night-owl"), ("Turn on or off", "twentea://toggle") })

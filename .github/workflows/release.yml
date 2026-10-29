@@ -75,6 +75,15 @@ jobs:
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
 
+      - name: Self-test the app
+        timeout-minutes: 3
+        run: |
+          $env:TWENTEA_DATA_DIR = "$env:RUNNER_TEMP\twentea-selftest"
+          $p = Start-Process "publish\win-x64\Twentea.exe" -ArgumentList "--self-test" -PassThru -Wait
+          Get-Content "$env:TWENTEA_DATA_DIR\selftest.log" -ErrorAction SilentlyContinue
+          Get-Content "$env:TWENTEA_DATA_DIR\crash.log" -ErrorAction SilentlyContinue
+          if ($p.ExitCode -ne 0) { throw "Self-test failed with exit code $($p.ExitCode)" }
+
       - name: Sign app
         if: env.HAS_SIGNING == 'true'
         uses: azure/trusted-signing-action@v0.5.1

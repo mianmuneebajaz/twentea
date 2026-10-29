@@ -21,8 +21,12 @@ sealed class TrayApp : INotifier
     private readonly Drawing.Icon _offIcon;
     private readonly Dictionary<string, Drawing.Icon> _badges = [];
 
-    public SettingsStore Store { get; } = new();
-    public StatsLog Stats { get; } = new();
+    /// <summary>TWENTEA_DATA_DIR moves settings and history elsewhere, for the self-test.</summary>
+    public static string DataDirectory =>
+        Environment.GetEnvironmentVariable("TWENTEA_DATA_DIR") is { Length: > 0 } dir ? dir : SettingsStore.DefaultDirectory;
+
+    public SettingsStore Store { get; } = new(DataDirectory);
+    public StatsLog Stats { get; } = new(DataDirectory);
     public Scheduler Scheduler { get; }
     public Updater Updater { get; }
 
