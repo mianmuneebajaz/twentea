@@ -98,10 +98,20 @@ struct SchedulerTests {
         let sched = Scheduler(settings: settings(), activity: activity, presenter: FakePresenter())
         sched.tick(start)
         var t = run(sched, from: start, seconds: 300)
-        activity.idleSeconds = 25
+        activity.idleSeconds = 130
         t = run(sched, from: t, seconds: 1)
         #expect(sched.microElapsed < 2)
         #expect(sched.longElapsed > 290)
+    }
+
+    @Test func readingPauseIsNotABreak() {
+        let activity = FakeActivity()
+        let sched = Scheduler(settings: settings(), activity: activity, presenter: FakePresenter())
+        sched.tick(start)
+        var t = run(sched, from: start, seconds: 300)
+        activity.idleSeconds = 25  // reading, longer than the 20 s micro break
+        t = run(sched, from: t, seconds: 1)
+        #expect(sched.microElapsed > 290)
     }
 
     @Test func smartPauseStopsTimer() {

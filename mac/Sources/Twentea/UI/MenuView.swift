@@ -102,9 +102,18 @@ struct MenuView: View {
     @ObservedObject var store: SettingsStore
     @ObservedObject var scheduler: Scheduler
     @ObservedObject var stats: StatsLog
+    @ObservedObject var updater: Updater
 
     var body: some View {
         VStack(spacing: 14) {
+            if let version = updater.availableVersion {
+                Button { updater.install() } label: {
+                    Label("Update to \(version)", systemImage: "arrow.down.circle.fill")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.orange)
+            }
             PowerButton(store: store)
                 .padding(.top, 6)
             VStack(spacing: 2) {

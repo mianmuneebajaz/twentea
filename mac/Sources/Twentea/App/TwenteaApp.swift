@@ -13,6 +13,7 @@ final class AppModel: ObservableObject {
     let notifier = Notifier()
     let presenter = BreakPresenter()
     let activity = ActivityMonitor()
+    let updater = Updater()
     let scheduler: Scheduler
     private var cancellables: Set<AnyCancellable> = []
 
@@ -31,6 +32,7 @@ final class AppModel: ObservableObject {
     func start() {
         notifier.requestAuthorization()
         scheduler.start()
+        updater.start()
     }
 
     var launchAtLogin: Bool {
@@ -86,7 +88,8 @@ struct TwenteaApp: App {
     var body: some Scene {
         MenuBarExtra {
             MenuView(app: AppModel.shared, store: AppModel.shared.store,
-                     scheduler: AppModel.shared.scheduler, stats: AppModel.shared.stats)
+                     scheduler: AppModel.shared.scheduler, stats: AppModel.shared.stats,
+                     updater: AppModel.shared.updater)
         } label: {
             MenuBarLabel(scheduler: AppModel.shared.scheduler, store: AppModel.shared.store)
         }

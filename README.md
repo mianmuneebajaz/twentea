@@ -14,7 +14,8 @@ A free, open source eye-break app for macOS and Windows. Every 20 minutes it ask
 ## Download
 
 Grab the latest build from [Releases](../../releases): `Twentea-<version>.dmg` for macOS 14 or later,
-`Twentea-<version>-win-x64.zip` or `-win-arm64.zip` for Windows 10 and 11.
+`Twentea-<version>-win-x64-setup.exe` (or `win-arm64`) for Windows 10 and 11. Both apps check for
+new releases and show an Update button when one is out.
 
 ## Build
 

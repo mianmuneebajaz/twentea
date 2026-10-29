@@ -110,10 +110,22 @@ public class SchedulerTests
         var sched = new Scheduler(Settings(), activity, new FakePresenter());
         sched.Tick(Start);
         var t = Run(sched, Start, 300);
-        activity.IdleSeconds = 25;
+        activity.IdleSeconds = 130;
         Run(sched, t, 1);
         Assert.True(sched.MicroElapsed < 2);
         Assert.True(sched.LongElapsed > 290);
+    }
+
+    [Fact]
+    public void ReadingPauseIsNotABreak()
+    {
+        var activity = new FakeActivity();
+        var sched = new Scheduler(Settings(), activity, new FakePresenter());
+        sched.Tick(Start);
+        var t = Run(sched, Start, 300);
+        activity.IdleSeconds = 25; // reading, longer than the 20 s micro break
+        Run(sched, t, 1);
+        Assert.True(sched.MicroElapsed > 290);
     }
 
     [Fact]

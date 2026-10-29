@@ -5,7 +5,7 @@ Free, MIT, eye-break app with two native apps that behave the same:
 | Folder | App | Stack |
 |---|---|---|
 | `mac/` | macOS menu bar app | Swift 6 (Swift 5 mode), SwiftUI, AppKit, SPM. No Xcode project |
-| `windows/` | Windows tray app | C# on .NET 10, WPF windows, WinForms tray icon |
+| `windows/` | Windows tray app | C# on .NET 10, WPF with the Fluent theme, WinForms tray icon, Inno Setup installer |
 | `shared/` | Contract both apps follow | `presets.json`, `parity-exceptions.txt` |
 | `brand/` | Icons | SVG sources, `generated/` holds the committed `.icns` and `.ico` |
 
@@ -65,6 +65,9 @@ section, and never renumber.
   build, and the release notes say when a build is unsigned.
 - **4.4** Verify locally before pushing: `mac/scripts/test.sh` and `scripts/check-parity.sh`. There is
   no local Windows toolchain, so Windows changes are verified by CI.
+- **4.5** The in-app updaters find their download by release asset name: `Twentea-<version>-mac.zip`
+  on the Mac and `Twentea-<version>-<win-x64|win-arm64>-setup.exe` on Windows. Renaming a release
+  asset breaks updates for every installed copy. `UpdateCheckTests` pins these names on both sides.
 
 ### 5. Writing and git
 

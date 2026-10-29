@@ -24,6 +24,7 @@ sealed class TrayApp : INotifier
     public SettingsStore Store { get; } = new();
     public StatsLog Stats { get; } = new();
     public Scheduler Scheduler { get; }
+    public Updater Updater { get; }
 
     /// <summary>Raised after power, preset or settings changes so open windows can refresh.</summary>
     public event Action? Changed;
@@ -43,15 +44,19 @@ sealed class TrayApp : INotifier
             Changed?.Invoke();
         };
 
+        Updater = new Updater(Quit);
+        Updater.Changed += () => Changed?.Invoke();
+
         _menu.Opening += (_, _) => BuildMenu();
         _tray = new Forms.NotifyIcon { Visible = true, ContextMenuStrip = _menu };
         _tray.MouseClick += (_, e) =>
         {
-            if (e.Button == Forms.MouseButtons.Left) SettingsWindow.Open(this);
+            if (e.Button == Forms.MouseButtons.Left) TrayPanel.Toggle(this);
         };
 
         _timer.Tick += (_, _) => { Scheduler.Tick(DateTime.Now); Refresh(); };
         _timer.Start();
+        Updater.Start();
         Refresh();
 
         if (Store.IsFirstLaunch)
@@ -189,43 +194,16 @@ sealed class TrayApp : INotifier
         return path;
     }
 
+    /// <summary>Right-click menu. Everything else lives in the tray panel that left click opens.</summary>
     private void BuildMenu()
     {
         _menu.Items.Clear();
-        var on = Store.IsOn;
-        _menu.Items.Add(new Forms.ToolStripMenuItem(on ? "Twentea is on" : "Twentea is off") { Enabled = false });
-        _menu.Items.Add(new Forms.ToolStripMenuItem(Status()) { Enabled = false });
-        _menu.Items.Add(on ? "Turn off" : "Turn on", null, (_, _) => SetOn(!on));
-        _menu.Items.Add(new Forms.ToolStripSeparator());
-
-        _menu.Items.Add(new Forms.ToolStripMenuItem("Break now", null, (_, _) => Scheduler.StartBreak(BreakKind.Micro)) { Enabled = on });
-        if (Scheduler.Phase is Phase.Paused)
-        {
-            _menu.Items.Add(new Forms.ToolStripMenuItem("Resume", null, (_, _) => Scheduler.Resume()) { Enabled = on });
-        }
-        else
-        {
-            var pause = new Forms.ToolStripMenuItem("Pause") { Enabled = on };
-            pause.DropDownItems.Add("30 minutes", null, (_, _) => Scheduler.Pause(30));
-            pause.DropDownItems.Add("1 hour", null, (_, _) => Scheduler.Pause(60));
-            pause.DropDownItems.Add("Until tomorrow", null, (_, _) => Scheduler.PauseUntilTomorrow());
-            _menu.Items.Add(pause);
-        }
-
-        var presets = new Forms.ToolStripMenuItem("Preset: " + Store.ActiveTitle) { Enabled = on };
-        foreach (var preset in Store.AllPresets)
-        {
-            var id = preset.Id;
-            presets.DropDownItems.Add(new Forms.ToolStripMenuItem(preset.Name, null, (_, _) => ApplyPreset(id))
-            {
-                Checked = id == Store.ActivePresetID,
-            });
-        }
-        _menu.Items.Add(presets);
-        _menu.Items.Add(new Forms.ToolStripMenuItem(Stats.Enabled ? StatsText() : "Stats are off") { Enabled = false });
-
-        _menu.Items.Add(new Forms.ToolStripSeparator());
+        _menu.Items.Add(new Forms.ToolStripMenuItem("Open Twentea", null, (_, _) => TrayPanel.Toggle(this)) { Font = new Drawing.Font(_menu.Font, Drawing.FontStyle.Bold) });
+        _menu.Items.Add(Store.IsOn ? "Turn off" : "Turn on", null, (_, _) => SetOn(!Store.IsOn));
+        if (Updater.State == Updater.UpdateState.Available)
+            _menu.Items.Add($"Update to {Updater.AvailableVersion}", null, (_, _) => _ = Updater.InstallAsync());
         _menu.Items.Add("Settings…", null, (_, _) => SettingsWindow.Open(this));
+        _menu.Items.Add(new Forms.ToolStripSeparator());
         _menu.Items.Add("Quit", null, (_, _) => Quit());
     }
 
