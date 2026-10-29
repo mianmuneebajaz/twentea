@@ -1,15 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- Windows tray app. Phase W0: tray icon, power switch, presets, pause, and breaks as toasts. See docs/WINDOWS.md. -->
+  <!-- Windows tray app: WPF for windows, WinForms only for the tray icon. See docs/WINDOWS.md. -->
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <AssemblyName>Twentea</AssemblyName>
     <RootNamespace>Twentea.Windows</RootNamespace>
     <ApplicationIcon>..\..\..\brand\generated\twentea.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <!-- WPF and WinForms share type names; files alias the WinForms and System.Drawing ones explicitly. -->
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\..\..\brand\generated\twentea.ico" LogicalName="twentea.ico" />
     <ProjectReference Include="..\Twentea.Core\Twentea.Core.csproj" />

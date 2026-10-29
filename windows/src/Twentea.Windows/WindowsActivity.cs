@@ -10,6 +10,8 @@ sealed class WindowsActivity : IActivitySource, IDisposable
 {
     private const uint EventSystemForeground = 3;
     private const uint WinEventOutOfContext = 0;
+    private const int SystemExecutionState = 16;
+    private const uint EsDisplayRequired = 0x2;
 
     private readonly WinEventProc _onForeground;
     private readonly IntPtr _hook;
@@ -40,7 +42,7 @@ sealed class WindowsActivity : IActivitySource, IDisposable
             return $"Paused for {name}";
         if (rules.CameraOrMic && (InUse("webcam") || InUse("microphone")))
             return "Paused during a call";
-        if (rules.VideoPlaying && FullScreenOrPresenting())
+        if (rules.VideoPlaying && (FullScreenOrPresenting() || DisplayKeptAwake()))
             return "Paused while video plays";
         return null;
     }
@@ -67,7 +69,12 @@ sealed class WindowsActivity : IActivitySource, IDisposable
         return false;
     }
 
-    /// <summary>Full-screen apps, games and slide shows. Windowed video needs the media session API (phase W1).</summary>
+    /// <summary>Video players and call apps ask Windows to keep the display on, like the Mac display-sleep assertion.</summary>
+    private static bool DisplayKeptAwake() =>
+        CallNtPowerInformation(SystemExecutionState, IntPtr.Zero, 0, out var state, sizeof(uint)) == 0 &&
+        (state & EsDisplayRequired) != 0;
+
+    /// <summary>Full-screen apps, games and slide shows.</summary>
     private static bool FullScreenOrPresenting()
     {
         if (SHQueryUserNotificationState(out var state) != 0) return false;
@@ -103,4 +110,6 @@ sealed class WindowsActivity : IActivitySource, IDisposable
     private static extern IntPtr SetWinEventHook(uint min, uint max, IntPtr module, WinEventProc proc, uint pid, uint thread, uint flags);
     [DllImport("user32.dll")] private static extern bool UnhookWinEvent(IntPtr hook);
     [DllImport("shell32.dll")] private static extern int SHQueryUserNotificationState(out int state);
+    [DllImport("powrprof.dll")]
+    private static extern uint CallNtPowerInformation(int level, IntPtr input, uint inputLength, out uint output, uint outputLength);
 }

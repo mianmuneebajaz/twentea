@@ -8,9 +8,9 @@ A native Windows tray app with the same presets, settings file and break rules a
 |---|---|
 | Language | C# on .NET 10 (LTS) |
 | Tray icon and menu | WinForms `NotifyIcon` |
-| Break windows, settings | WPF (from W1) |
+| Break windows, settings | WPF, built in code |
 | Storage | `%APPDATA%\Twentea\settings.json`, same JSON as the Mac |
-| Notifications | Balloon tips in W0, Windows App SDK toasts in W2 |
+| Notifications | Tray balloon tips, which Windows 10 and 11 show as toasts |
 | Distribution | Zip in W0, signed installer and winget in W3 |
 | Minimum OS | Windows 10 21H2, x64 and ARM64 |
 
@@ -38,11 +38,11 @@ flowchart LR
 
 | Mac | Windows |
 |---|---|
-| Menu bar icon with countdown | Tray icon. Windows cannot show text next to it, so the countdown goes in the tooltip, and W2 draws the minutes into the icon |
+| Menu bar icon with countdown | Tray icon. Windows cannot show text next to it, so the icon becomes a numbered badge |
 | `CGEventSource` idle time | `GetLastInputInfo` |
 | App switch notification | `SetWinEventHook(EVENT_SYSTEM_FOREGROUND)` |
 | Camera and mic in use | `ConsentStore` registry keys, `LastUsedTimeStop = 0` |
-| Video playing | `SHQueryUserNotificationState` for full screen (W0), media session playback state (W1) |
+| Video playing | `SHQueryUserNotificationState` for full screen, plus `ES_DISPLAY_REQUIRED` from `CallNtPowerInformation`, the same signal as the Mac display-sleep assertion |
 | `NSPanel` card, dim, overlay | Topmost, layered, `WS_EX_NOACTIVATE` WPF windows on every monitor |
 | Hard lock | Same overlay with focus. Win+L and Ctrl+Alt+Del still work |
 | IOPM sleep assertion | `SetThreadExecutionState(ES_SYSTEM_REQUIRED)` |
@@ -61,8 +61,8 @@ flowchart LR
 | Phase | Done when |
 |---|---|
 | W0 | Tray app runs, scheduler and store pass the shared tests, CI builds both platforms. **Done** |
-| W1 | Every enforcement level renders on all monitors and `Supported()` in `TrayApp.cs` is deleted |
-| W2 | Every row in `docs/PARITY.md` reads `done` on Windows |
+| W1 | Every enforcement level renders on all monitors. **Done** |
+| W2 | Every row in `docs/PARITY.md` reads `done` on Windows. **Done** |
 | W3 | `winget install Twentea` works and updates arrive without a manual download |
 
 ## Release pipeline

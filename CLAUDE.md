@@ -5,7 +5,7 @@ Free, MIT, eye-break app with two native apps that behave the same:
 | Folder | App | Stack |
 |---|---|---|
 | `mac/` | macOS menu bar app | Swift 6 (Swift 5 mode), SwiftUI, AppKit, SPM. No Xcode project |
-| `windows/` | Windows tray app | C# on .NET 10, WinForms tray, WPF windows from phase W1 |
+| `windows/` | Windows tray app | C# on .NET 10, WPF windows, WinForms tray icon |
 | `shared/` | Contract both apps follow | `presets.json`, `parity-exceptions.txt` |
 | `brand/` | Icons | SVG sources, `generated/` holds the committed `.icns` and `.ico` |
 
@@ -49,10 +49,11 @@ section, and never renumber.
   `ActivitySource` and `BreakPresenting` (Mac) and `IActivitySource` and `IBreakPresenter` (Windows).
 - **3.2** Activity signals must work without a permission prompt. If a signal needs one, it is opt-in
   and off by default.
-- **3.3** Break windows never take keyboard focus except hard lock, and focus returns to the previous
-  app afterwards. Long-running terminal and agent sessions must keep running untouched during a break.
-- **3.4** A level that a platform has not built yet must degrade through `Features.resolve`, never
-  silently do nothing (see `Supported` in `windows/src/Twentea.Windows/TrayApp.cs`).
+- **3.3** Cards and soft dims never take keyboard focus. Full overlay and hard lock do, and focus
+  returns to the previous app afterwards. Long-running terminal and agent sessions must keep running
+  untouched during a break, so both apps keep the system awake while a break shows.
+- **3.4** A level that a platform cannot show must degrade through `Features.resolve`, never silently
+  do nothing.
 
 ### 4. Build, CI and releases
 
